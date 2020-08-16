@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, user-scalable=no initial-scale=0.6">
+  <title>Flappy Bird</title>
+</head>
+<body>
+  <canvas id="canvas1"></canvas>
+  <script src="js/bird.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/obstacles.js"></script>
+  <script src="js/main.js"></script>
+  <div onclick="holdForFlapToggle()">
+    <h1 id="holdForFlapToggle">Hold space to move</h1>
+    <h1>Click here to toggle playing mode</h2>
+  </div>
+  <button onclick="restartGame()">Restart the game</button>
+  <!-- <button onclick="changeBird()">Change bird</button> -->
+</body>
+</html>
