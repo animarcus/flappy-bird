@@ -3,21 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="css/style.css">
-  <meta name="viewport" content="width=device-width, user-scalable=no initial-scale=0.6">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=0.6">
   <title>Flappy Bird</title>
 </head>
-<body>
+<body id="body">
   <canvas id="canvas1"></canvas>
+  <button id="goBackMain" onclick="window.location.href='https://animarcus.github.io/'">Go back to the main page</button>
+  <div>
+    <h1 id="holdForFlapToggle">Hold space/finger to move</h1>
+    <div onclick="holdForFlapToggle()" class="settings">Toggle playing mode</div>
+    <!-- <button onclick="holdForFlapToggle()" class="settings">Toggle playing mode</h2> -->
+  </div>
+  <br>
+  <div onclick="restartGame()" class="settings" style="background-color:red">Restart the game</div>
+  <h1 id="highscore">High score:</h1>
+  <div onclick="highScoreHandler.resetHighScore()">click here to reset high score</div>
   <script src="js/bird.js"></script>
   <script src="js/particles.js"></script>
   <script src="js/obstacles.js"></script>
   <script src="js/main.js"></script>
-  <button id="goBackMain" onclick="window.location.href='https://animarcus.github.io/'">Go back to the main page</button>
-  <div>
-    <h1 id="holdForFlapToggle">Hold space to move</h1>
-    <button onclick="holdForFlapToggle()">Toggle playing mode</h2>
-  </div>
-  <button onclick="restartGame()">Restart the game</button>
   <!-- <button onclick="changeBird()">Change bird</button> -->
 </body>
 </html>

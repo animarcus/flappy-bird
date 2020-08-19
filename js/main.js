@@ -11,10 +11,10 @@ let score = 0;
 let gamespeed = 2;
 
 let gameEnded = false;
-// let image = false;
 
-let holdForFlap = true;
 let repeating = false;
+
+let gesture = "space";
 
 function animate() {
   ctx.clearRect(0,0,canvas.width, canvas.height);
@@ -37,9 +37,6 @@ function animate() {
   hue++;
   frame ++;
 }
-
-animate();
-
 
 window.addEventListener('keydown', function(e) {
   if (e.code === "Space") {
@@ -79,20 +76,32 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     repeating = false;
     spacePressed = false;
   });
+  gesture = "finger";
 }
 
 function holdForFlapToggle() {
-  holdForFlap = !holdForFlap;
-  checkButton = document.getElementById("holdForFlapToggle");
-  if (holdForFlap) {
-    allowRepeat = true;
-    checkButton.innerHTML = "Hold space to move";
-  } else {
-    allowRepeat = false;
-    checkButton.innerHTML = "Tap space to flap";
-  }
+  holdForFlap = (localStorage.getItem('holdForFlap') == 'true');
+  localStorage.setItem('holdForFlap', !holdForFlap);
+  displayHoldForFlap();
 }
 
+function displayHoldForFlap() {
+  holdForFlap = (localStorage.getItem('holdForFlap') == 'true');
+  checkButton = document.getElementById("holdForFlapToggle");
+  if (holdForFlap !== null) {
+    if (holdForFlap === true) {
+      allowRepeat = true;
+      checkButton.innerHTML = "Hold " + gesture + " to move";
+    } else {
+      allowRepeat = false;
+      checkButton.innerHTML = "Tap " + gesture + " to flap";
+    }
+  } else {
+    holdForFlap = true;
+    allowRepeat = true;
+    checkButton.innerHTML = "Hold " + gesture + " to move";
+  }
+}
 
 const bang = new Image();
 bang.src = 'images/bang.png';
@@ -106,18 +115,44 @@ function handleCollision() {
           ctx.font = "25px Georgia";
           ctx.fillStyle = 'black';
           ctx.fillText("Game Over, your score is " + score, 160, canvas.height/2 - 10);
+          ctx.fillText("Tap " + gesture + " to restart", 200, canvas.height/2 + 40);
+          highScoreHandler.isHighScore();
           gameEnded = true;
           return gameEnded;
         }
   }
 }
+let highScoreHandler = {
+  isHighScore : function () {
+    currentHighScore = localStorage.getItem('highScore');
+    if (score > currentHighScore) {
+      localStorage.setItem('highScore', score);
+    }
+  },
+  displayHighScore : function() {
+    currentHighScore = localStorage.getItem('highScore');
+    let display = document.getElementById("highscore");
+    if (currentHighScore !== null) {
+      display.innerHTML = "High Score: " + String(currentHighScore);
+    } else {
+      display.innerHTML = "High Score: 0";
+    }
+  },
+  resetHighScore : function() {
+    let display = document.getElementById("highscore");
+    display.innerHTML = "High Score: 0";
+    localStorage.setItem('highScore', 0);
+  }
+}
+
 
 function restartGame() {
   location.reload();
   return false;
 }
 
-// function changeBird() {
-//   image = !image;
-//   restartGame();
-// }
+
+
+highScoreHandler.displayHighScore();
+displayHoldForFlap();
+animate();

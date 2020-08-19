@@ -1,5 +1,16 @@
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
 body {
   background: lightgray;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 #canvas1 {
@@ -13,6 +24,19 @@ body {
 }
 button {
   font-size: 2vh;
+  outline: none !important;
+}
+
+.settings {
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  font-size: 2vh;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  border: solid black 1px;
+  cursor: pointer;
+  width: 40%;
 }
 
 #goBackMain {

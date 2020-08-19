@@ -1,3 +1,4 @@
+let birdColor = 'hsl(' + Math.floor(Math.random()*360) + ', 100%, 50%)';
 class Bird {
   constructor(){
     this.x = 150;
@@ -28,16 +29,11 @@ class Bird {
         this.flap(18);
         setTimeout(spacePressed = false, 500);
       }
-      // spacePressed = false;
     }
   }
   draw() {
-    ctx.fillStyle = 'green';
-    // if (!image) {
+    ctx.fillStyle = birdColor;
     ctx.fillRect(this.x, this.y, this.width, this.height);
-    // } else {
-    //   ctx.drawImage(birdPic, this.x, this.y, this.width, this.height);
-    // }
     }
   flap(v) {
     this.vy -= v;
