@@ -22,7 +22,7 @@ class Bird {
       this.y = 0 + this.height;
       this.vy = 0;
     }
-    if (spacePressed && this.y > this.height * 3) {
+    if (spacePressed && this.y >= this.height * 3) {
       if (holdForFlap) {
         this.flap(2);
       } else if (!holdForFlap && repeating===false) {
