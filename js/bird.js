@@ -32,8 +32,6 @@ class Bird {
           this.flap(18);
           setTimeout(spacePressed = false, 500);
         }
-      } else {
-        this.y -= 50;
       }
     }
   }
