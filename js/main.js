@@ -15,18 +15,55 @@ let gameEnded = false;
 let repeating = false;
 
 let gesture = "space";
+let autoplayer = false;
+let usedGodMode = false;
+
+
+const background = new Image();
+background.src = 'images/BG.png';
+const BG = {
+  x1: 0,
+  x2: canvas.width,
+  y: 0,
+  width: canvas.width,
+  height: canvas.height
+}
+function handleBackground() {
+  if (BG.x1 <= -BG.width + gamespeed) BG.x1 = BG.width;
+  else (BG.x1 -= gamespeed);
+  if (BG.x2 <= -BG.width + gamespeed) BG.x2 = BG.width;
+  else (BG.x2 -= gamespeed);
+  ctx.drawImage(background, BG.x1, BG.y, BG.width, BG.height);
+  ctx.drawImage(background, BG.x2, BG.y, BG.width, BG.height);
+}
+
+
 
 function animate() {
   ctx.clearRect(0,0,canvas.width, canvas.height);
+  autoplayerHandler.updateGodScore();
+  handleBackground();
   handleObstacles();
   handleParticles();
   bird.update();
   bird.draw();
   handleCollision();
+  autoplayerHandler.updateGodScore();
   ctx.fillStyle = 'red';
   ctx.font = '90px Arial';
-  ctx.strokeText(score, 500, 100);
-  ctx.fillText(score, 500, 100);
+  if (score >= 1000) {
+    ctx.strokeText(score, 370, 100);
+    ctx.fillText(score, 370, 100);
+  } else if (score >= 100) {
+    ctx.strokeText(score, 420, 100);
+    ctx.fillText(score, 420, 100);
+  } else if (score >= 10) {
+    ctx.strokeText(score, 470, 100);
+    ctx.fillText(score, 470, 100);
+  } else if (score < 10) {
+    ctx.strokeText(score, 520, 100);
+    ctx.fillText(score, 520, 100);
+  }
   // handleCollision();
   if (!gameEnded) {
     requestAnimationFrame(animate);
@@ -37,6 +74,8 @@ function animate() {
   hue++;
   frame ++;
 }
+
+
 
 window.addEventListener('keydown', function(e) {
   if (e.code === "Space") {
@@ -58,7 +97,6 @@ window.addEventListener('keyup', function(e) {
     spacePressed = false;
   }
 });
-
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
   document.addEventListener("touchstart", function(e) {
     if (!gameEnded) {
@@ -79,6 +117,7 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
   gesture = "finger";
 }
 
+
 function holdForFlapToggle() {
   holdForFlap = (localStorage.getItem('holdForFlap') == 'true');
   localStorage.setItem('holdForFlap', !holdForFlap);
@@ -87,7 +126,7 @@ function holdForFlapToggle() {
 
 function displayHoldForFlap() {
   holdForFlap = (localStorage.getItem('holdForFlap') == 'true');
-  checkButton = document.getElementById("holdForFlapToggle");
+  let checkButton = document.getElementById("holdForFlapToggle");
   if (holdForFlap !== null) {
     if (holdForFlap === true) {
       allowRepeat = true;
@@ -122,11 +161,57 @@ function handleCollision() {
         }
   }
 }
+
+
+let autoplayerHandler = {
+  displayAutoplayer : function() {
+    let currentGodHighScore = localStorage.getItem('godHighScore');
+    let checkButton = document.getElementById("toggleAutoplayer");
+    if (autoplayer != null) {
+      display = document.getElementById("autohighscore");
+      display.innerHTML = "God Mode High Score: " + String(currentGodHighScore);
+      if (autoplayer == true) {
+        checkButton.innerHTML = "God mode: ON";
+        usedGodMode = true;
+        document.getElementById("usedGodMode").innerHTML = "You tried to cheat with god mode you sneaky bastard! Your high score won't be counted this game.";
+      } else {
+        checkButton.innerHTML = "God mode: OFF";
+      }
+    } else {
+      autoplayer = false;
+      checkButton.innerHTML = "Autoplayer: OFF";
+    }
+  },
+  toggleAutoplayer : function() {
+    autoplayer = (localStorage.getItem('autoplayer') == 'true');
+    localStorage.setItem('autoplayer', !autoplayer);
+    this.displayAutoplayer();
+  },
+  updateGodScore : function() {
+    let currentGodHighScore = localStorage.getItem('godHighScore');
+    display = document.getElementById("autohighscore");
+    if (score > currentGodHighScore && autoplayer) {
+      display.innerHTML = "God Mode High Score: " + String(currentGodHighScore);
+      localStorage.setItem('godHighScore', score);
+    }
+  }
+};
+
+
+
+
 let highScoreHandler = {
   isHighScore : function () {
-    currentHighScore = localStorage.getItem('highScore');
-    if (score > currentHighScore) {
-      localStorage.setItem('highScore', score);
+    if (!usedGodMode) {
+      let currentHighScore = localStorage.getItem('highScore');
+      if (score > currentHighScore) {
+        localStorage.setItem('highScore', score);
+      }
+    } else {
+      let currentGodHighScore = localStorage.getItem('godHighScore');
+      if (score > currentGodHighScore) {
+        localStorage.setItem('godHighScore', score);
+      }
     }
   },
   displayHighScore : function() {
@@ -142,8 +227,13 @@ let highScoreHandler = {
     let display = document.getElementById("highscore");
     display.innerHTML = "High Score: 0";
     localStorage.setItem('highScore', 0);
+    display = document.getElementById("autohighscore");
+    display.innerHTML = "God Mode High Score: 0";
+    localStorage.setItem('godHighScore', 0);
   }
 }
+
+
 
 
 function restartGame() {
@@ -155,4 +245,5 @@ function restartGame() {
 
 highScoreHandler.displayHighScore();
 displayHoldForFlap();
+autoplayerHandler.displayAutoplayer();
 animate();

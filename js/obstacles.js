@@ -2,18 +2,14 @@ const obstaclesArray = [];
 
 class Obstacle {
   constructor(){
-    // this.pipeY = 130;
     this.pipeY = (Math.random() * 150 + 150);
     this.spacing = (Math.random() * 70 + 100);
     this.top = this.pipeY - this.spacing/2;
     this.bottom = this.pipeY + this.spacing/2;
     this.x = canvas.width;
     this.width = 20;
-    // this.width = (Math.random() * 10 + 30);
     this.color = 'hsl(' + hue + ',100%,50%)';
     this.counted = false;
-    // console.log("pipe:",Math.floor(this.pipeY),"top", Math.floor(this.top),"bottom", Math.floor(this.bottom));
-    // console.log("top rectangle height: ",canvas.height - this.bottom - this.spacing);
   }
   draw(){
     ctx.fillStyle = this.color;
@@ -32,9 +28,13 @@ class Obstacle {
 
 function handleObstacles(){
   if (frame%150 === 0) {
+    // console.log(obstaclesArray);
     obstaclesArray.unshift(new Obstacle());
   }
   for (i = 0; i < obstaclesArray.length; i++) {
+    if (obstaclesArray[i].x > bird.x - 50 && autoplayer) {
+      bird.y = obstaclesArray[i].pipeY - bird.height/2;
+    }
     obstaclesArray[i].update();
   }
   if (obstaclesArray > 20) {

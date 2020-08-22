@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="css/style.css">
-  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=0.6">
+  <meta name="viewport" content="user-scalable=NO, width=device-width, initial-scale=0.6">
   <title>Flappy Bird</title>
 </head>
 <body id="body">
@@ -16,8 +16,14 @@
   </div>
   <br>
   <div onclick="restartGame()" class="settings" style="background-color:red">Restart the game</div>
-  <h1 id="highscore">High score:</h1>
-  <div onclick="highScoreHandler.resetHighScore()">click here to reset high score</div>
+  <br>
+  <div onclick="autoplayerHandler.toggleAutoplayer()" id="toggleAutoplayer" class="settings">Autoplayer: </div>
+  <div class="highscores">
+    <h1 id="highscore">High score:</h1>
+    <h1 id="autohighscore">God Mode High Score: </h1>
+    <div onclick="highScoreHandler.resetHighScore()">click here to reset high scores</div>
+  </div>
+  <div id="usedGodMode"></div>
   <script src="js/bird.js"></script>
   <script src="js/particles.js"></script>
   <script src="js/obstacles.js"></script>

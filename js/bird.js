@@ -4,8 +4,10 @@ class Bird {
     this.x = 150;
     this.y = 200;
     this.vy = 20;
-    this.width = 20;
-    this.height = 20;
+    this.originalWidth = 1044;
+    this.originalHeight = 148;
+    this.width = this.originalWidth/24;
+    this.height = this.originalHeight/4;
     this.weight = 1;
   }
   update() {
@@ -23,11 +25,15 @@ class Bird {
       this.vy = 0;
     }
     if (spacePressed && this.y >= this.height * 3) {
-      if (holdForFlap) {
-        this.flap(2);
-      } else if (!holdForFlap && repeating===false) {
-        this.flap(18);
-        setTimeout(spacePressed = false, 500);
+      if (!autoplayer) {
+        if (holdForFlap) {
+          this.flap(2);
+        } else if (!holdForFlap && repeating===false) {
+          this.flap(18);
+          setTimeout(spacePressed = false, 500);
+        }
+      } else {
+        this.y -= 50;
       }
     }
   }
@@ -40,6 +46,4 @@ class Bird {
   }
 }
 
-const birdPic = new Image();
-birdPic.src = 'images/bekfast.jpg';
 const bird = new Bird();
