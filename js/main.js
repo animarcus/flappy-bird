@@ -95,6 +95,7 @@ window.addEventListener('keyup', function(e) {
   if (e.code === "Space" && holdForFlap) {
     repeating = false;
     spacePressed = false;
+    bird.frameX = 0;
   }
 });
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {

@@ -3,7 +3,7 @@ const obstaclesArray = [];
 class Obstacle {
   constructor(){
     this.pipeY = (Math.random() * 150 + 150);
-    this.spacing = (Math.random() * 70 + 100);
+    this.spacing = (Math.random() * 90 + 100);
     this.top = this.pipeY - this.spacing/2;
     this.bottom = this.pipeY + this.spacing/2;
     this.x = canvas.width;
