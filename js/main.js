@@ -100,6 +100,8 @@ window.addEventListener('keyup', function(e) {
 });
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
   document.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
     if (!gameEnded) {
       if (e.repeat){
         repeating = true;
