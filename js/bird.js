@@ -40,8 +40,8 @@ class Bird {
   }
   draw() {
     ctx.fillStyle = birdColor;
-    // ctx.fillRect(this.x, this.y, this.width, this.height);
-    ctx.drawImage(birdSprite, this.frameX*this.originalWidth, 0, this.originalWidth, this.originalHeight, this.x-13, this.y-10, this.width*1.4, this.height*1.4);
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+    // ctx.drawImage(birdSprite, this.frameX*this.originalWidth, 0, this.originalWidth, this.originalHeight, this.x-13, this.y-10, this.width*1.4, this.height*1.4);
     }
   flap(v) {
     this.vy -= v;
