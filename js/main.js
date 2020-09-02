@@ -169,8 +169,11 @@ function handleCollision() {
 let autoplayerHandler = {
   displayAutoplayer : function() {
     let currentGodHighScore = localStorage.getItem('godHighScore');
+    if (currentGodHighScore == null) {
+      currentGodHighScore = 0;
+    }
     let checkButton = document.getElementById("toggleAutoplayer");
-    if (autoplayer != null) {
+    if (autoplayer !== null) {
       display = document.getElementById("autohighscore");
       display.innerHTML = "God Mode High Score: " + String(currentGodHighScore);
       if (autoplayer == true) {
@@ -182,12 +185,12 @@ let autoplayerHandler = {
       }
     } else {
       autoplayer = false;
-      checkButton.innerHTML = "Autoplayer: OFF";
+      checkButton.innerHTML = "God mode: OFF";
     }
   },
   toggleAutoplayer : function() {
-    autoplayer = (localStorage.getItem('autoplayer') == 'true');
-    localStorage.setItem('autoplayer', !autoplayer);
+    console.log("boop");
+    autoplayer = !autoplayer;
     this.displayAutoplayer();
   },
   updateGodScore : function() {
@@ -220,10 +223,10 @@ let highScoreHandler = {
   displayHighScore : function() {
     currentHighScore = localStorage.getItem('highScore');
     let display = document.getElementById("highscore");
-    if (currentHighScore !== null) {
-      display.innerHTML = "High Score: " + String(currentHighScore);
-    } else {
+    if (currentHighScore == null) {
       display.innerHTML = "High Score: 0";
+    } else {
+      display.innerHTML = "High Score: " + String(currentHighScore);
     }
   },
   resetHighScore : function() {
@@ -245,8 +248,7 @@ function restartGame() {
 }
 
 
-
+autoplayerHandler.displayAutoplayer();
 highScoreHandler.displayHighScore();
 displayHoldForFlap();
-autoplayerHandler.displayAutoplayer();
 animate();
